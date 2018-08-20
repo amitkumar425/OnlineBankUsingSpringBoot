@@ -1,6 +1,7 @@
 package com.cg.springdemo.springbootstarter.account.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Map;
 
@@ -17,11 +18,10 @@ public class MonyMonyServiceLayer {
 
 	@Autowired
 	MoneyMoneyBankCollection dataLayer;
-		
-	
+
 	public BankAccount createNewCurrentAccount(CurrentAccount createNewCurrentAccount) {
 		return dataLayer.addBankAccount(createNewCurrentAccount);
-		
+
 	}
 
 	public BankAccount createNewSavingsAccount(SavingsAccount createNewSavingsAccount) {
@@ -32,17 +32,16 @@ public class MonyMonyServiceLayer {
 		return dataLayer.depositAmount(accountToBeDepsitedIn, amount);
 	}
 
-	
 	public Collection<BankAccount> getAllAccounts() {
 		return dataLayer.getAllAccounts();
 	}
-	
+
 	public boolean validateUser(int accountNumber) {
-		
+
 		return dataLayer.validateUser(accountNumber);
 	}
 
-	public BankAccount getAccountByAccountNumber(int accountNumberToBeSearched){
+	public BankAccount getAccountByAccountNumber(int accountNumberToBeSearched) {
 		return dataLayer.getAccountByAccountNumber(accountNumberToBeSearched);
 	}
 
@@ -51,16 +50,24 @@ public class MonyMonyServiceLayer {
 		return dataLayer.performFundTransfer(receipientAccountNumber, donerAccountNumber, amountToBeTransffered);
 	}
 
-	public Map<Integer,Integer> withdrawWithDenomination(int accountNumber, double amountToBeWithdrawn) {
-		return dataLayer.withdrawWithDenomination(accountNumber,amountToBeWithdrawn);
+	public Map<Integer, Integer> withdrawWithDenomination(int accountNumber, double amountToBeWithdrawn) {
+		return dataLayer.withdrawWithDenomination(accountNumber, amountToBeWithdrawn);
 	}
 
-	public void updateCustomer(int accountNumber, Map<String, Object> updatedMap) {
+	public int updateCustomer(int accountNumber, Map<String, Object> updatedMap) {
 		BankAccount b = dataLayer.getAccountByAccountNumber(accountNumber);
-		b.getAccountHolder().setDateOfBirth((LocalDate)updatedMap.get("dateOfBirth"));
+		if(b==null) {
+			return 0;
+		}
+		String dateOfBirth = updatedMap.get("dateOfBirth").toString();
+		DateTimeFormatter formater = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate date = LocalDate.parse(dateOfBirth, formater);
+		
+		b.getAccountHolder().setDateOfBirth(date);
 		b.getAccountHolder().setContactNumber(Long.parseLong(updatedMap.get("contactNumber").toString()));
-		b.getAccountHolder().setCustomerName((String) updatedMap.get("customerName"));
-		b.getAccountHolder().setEmailId((String) updatedMap.get("emailId"));
+		b.getAccountHolder().setCustomerName((String) updatedMap.get("accountHolderName"));
+		b.getAccountHolder().setEmailId((String) updatedMap.get("emailID"));
+		return 1;
 	}
-	
+
 }
