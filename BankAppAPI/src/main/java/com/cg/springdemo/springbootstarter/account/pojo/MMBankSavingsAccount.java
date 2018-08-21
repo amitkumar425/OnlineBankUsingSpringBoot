@@ -5,9 +5,11 @@
 
 package com.cg.springdemo.springbootstarter.account.pojo;
 
+
 import com.cg.bank.framework.account.pojo.BankAccount;
 import com.cg.bank.framework.account.pojo.Customer;
 import com.cg.bank.framework.account.pojo.SavingsAccount;
+
 
 public class MMBankSavingsAccount extends SavingsAccount implements Comparable<BankAccount> {
 

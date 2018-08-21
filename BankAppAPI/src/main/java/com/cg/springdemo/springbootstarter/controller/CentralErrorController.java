@@ -5,12 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cg.springdemo.springbootstarter.account.pojo.ErrorResponse;
 import com.cg.springdemo.springbootstarter.exceptions.AccountNotFoundException;
 import com.cg.springdemo.springbootstarter.exceptions.InvalidAccountNumberException;
 import com.cg.springdemo.springbootstarter.exceptions.InvalidAccountOrAmountException;
 import com.cg.springdemo.springbootstarter.exceptions.InvalidAmountException;
 import com.cg.springdemo.springbootstarter.exceptions.NoAccountFoundException;
 
+//This class acts as the destination for any type of exception in any controller. 
+//It handles five kind of exceptions defined.
 @ControllerAdvice
 public class CentralErrorController {
 	private ErrorResponse errorResponse = new ErrorResponse();
@@ -54,4 +57,12 @@ public class CentralErrorController {
 
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse> handleOtherException(Exception e){
+		errorResponse.setErrorCode(HttpStatus.BAD_REQUEST.value());
+		errorResponse.setErrorMessage(e.getMessage());
+		return new ResponseEntity<ErrorResponse>(errorResponse,HttpStatus.BAD_REQUEST);
+	}
+
 }

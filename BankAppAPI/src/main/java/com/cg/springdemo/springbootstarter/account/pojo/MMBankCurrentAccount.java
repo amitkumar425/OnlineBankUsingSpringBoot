@@ -8,6 +8,7 @@ import com.cg.bank.framework.account.pojo.BankAccount;
 import com.cg.bank.framework.account.pojo.CurrentAccount;
 import com.cg.bank.framework.account.pojo.Customer;
 
+
 public class MMBankCurrentAccount extends CurrentAccount implements Comparable<BankAccount>{
 
 	

@@ -67,7 +67,7 @@ public class BankAccountController {
 		return "Added Successfully";
 	}
 
-	@RequestMapping("/accounts")
+	@RequestMapping(value="/accounts",method=RequestMethod.GET)
 	public Collection<BankAccount> getAllBankAccount() throws NoAccountFoundException {
 		if(moneyMoneyServiceLayer.getAllAccounts().size()==0) {
 			throw new NoAccountFoundException("The Account List is Empty");
@@ -128,4 +128,5 @@ public class BankAccountController {
 		
 		moneyMoneyServiceLayer.updateCustomer(Integer.parseInt(updatedMap.get("accountNumber").toString()), updatedMap);
 	}
+
 }

@@ -13,6 +13,8 @@ import com.cg.bank.framework.account.pojo.CurrentAccount;
 import com.cg.bank.framework.account.pojo.SavingsAccount;
 import com.cg.springdemo.springbootstarter.account.dao.MoneyMoneyBankCollection;
 
+//This class implements the service layer of the application.
+
 @Service
 public class MonyMonyServiceLayer {
 
